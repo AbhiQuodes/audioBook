@@ -3,13 +3,6 @@
 $conn = new mysqli("localhost", "root", "");
 session_start();
 
-
-
-// Check connection
-// if ($conn->connect_error) {
-//     die("Connection failed: " . $conn->connect_error);
-// }
-
 // Create Database if not exists
 $sqlDB = "CREATE DATABASE IF NOT EXISTS userDB";
 if ($conn->query($sqlDB) === TRUE) {
@@ -26,7 +19,6 @@ $sqlTable = "CREATE TABLE IF NOT EXISTS users (
     pincode VARCHAR(10),
     password VARCHAR(255) NOT NULL
 )";
-
 if ($conn->query($sqlTable) !== TRUE) {
     die("Error creating table: " . $conn->error);
 }
@@ -36,7 +28,6 @@ $message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn->select_db("userDB"); // Select database
-
     $username = $_POST["username"];
     $checkUser = "SELECT * FROM users WHERE username='$username'";
     $result = $conn->query($checkUser);
@@ -45,7 +36,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Existing User (Login)
         $password = md5($_POST["password"]);
         $row = $result->fetch_assoc();
-
         if ($row["password"] == $password) {
             $_SESSION["username"] = $username;
             echo "<script>
@@ -101,35 +91,126 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         });
 
-        function toggleForm() {
-            document.getElementById("loginForm").style.display = "none";
-            document.getElementById("signupForm").style.display = "block";
+        function toggleForm(isSignup) {
+            let loginForm = document.getElementById("loginForm");
+            let signupForm = document.getElementById("signupForm");
+            let formHeading = document.getElementById("formHeading");
+            let toggleButton = document.getElementById("toggleButton");
+
+            if (isSignup) {
+                loginForm.style.display = "none";
+                signupForm.style.display = "block";
+                formHeading.innerText = "Sign-Up";
+                toggleButton.innerText = "Already have an account? Login";
+                toggleButton.setAttribute("onclick", "toggleForm(false)");
+            } else {
+                loginForm.style.display = "block";
+                signupForm.style.display = "none";
+                formHeading.innerText = "Login";
+                toggleButton.innerText = "Don't have an account? Sign Up";
+                toggleButton.setAttribute("onclick", "toggleForm(true)");
+            }
         }
     </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #f8f8f8;
+            padding: 0px;   
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            max-width: 380px;
+            margin: auto;
+            position: relative;
+            top:150px;
+            min-width: 280px;
+
+        }
+
+        form{
+            width:90%;
+        }
+        h2 {
+            color: #333;
+        }
+        form input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background: #ce31dd;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            max-width: 300px;
+            width: 100%;
+            margin: auto;
+            display: block;
+            margin-top: 30px;
+        }
+        button:hover {
+            background: #b020cc;
+        }
+        #toggleButton {
+            margin-top: 10px;
+            background: none;
+            color: #ce31dd;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        #toggleButton:hover {
+            text-decoration: underline;
+        }
+        @media(max-width :600px)
+        {
+            form{
+                width:98%;
+            }
+            .container {
+           
+            top:100px;
+
+        }
+        }
+    </style>
 </head>
 <body>
 
-    <h2>Login</h2>
-    <?php if ($message) echo "<p style='color:red;'>$message</p>"; ?>
-    <form id="loginForm" method="POST">
-        <input type="text" name="username" placeholder="Username" required><br>
-        <input type="password" name="password" placeholder="Password" required><br>
-        <button type="submit">Login</button>
-    </form>
+    <div class="container">
+        <h2 id="formHeading">Login</h2>
+        <?php if ($message) echo "<p style='color:red;'>$message</p>"; ?>
 
-    <div id="signupForm" style="display:none;">
-        <h2>Signup</h2>
-        <form method="POST">
+        <form id="loginForm" method="POST" style="box-shadow:0px 0px 0px black">
             <input type="text" name="username" placeholder="Username" required><br>
-            <input type="text" name="city" placeholder="City" required><br>
-            <input type="text" name="pincode" placeholder="Pincode" required><br>
             <input type="password" name="password" placeholder="Password" required><br>
-            <input type="password" name="confirm_password" placeholder="Confirm Password" required><br>
-            <button type="submit">Sign Up</button>
+            <button type="submit">Login</button>
         </form>
-    </div>
 
-    <button onclick="toggleForm()">Don't have an account? Sign Up</button>
+        <div id="signupForm" style="display:none;">
+            <!-- <h2>Sign-Up</h2> -->
+            <form method="POST" style="box-shadow:0px 0px 0px black">
+                <input type="text" name="username" placeholder="Username" required><br>
+                <input type="text" name="city" placeholder="City" required><br>
+                <input type="text" name="pincode" placeholder="Pincode" required><br>
+                <input type="password" name="password" placeholder="Password" required><br>
+                <input type="password" name="confirm_password" placeholder="Confirm Password" required><br>
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+
+        <button id="toggleButton" onclick="toggleForm(true)">Don't have an account? Sign Up</button>
+    </div>
 
 </body>
 </html>

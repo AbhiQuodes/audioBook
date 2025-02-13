@@ -174,15 +174,15 @@ $songDetails = [
     <!--  HeaderBar section -->
     <div class="head-wrapper">
       <div class="head-box">
-        <a href="/">
+        <a href="./../client/home.php">
           <img class="brand-name" src=".\..\images\musicLogo.png" alt="brand-logo"></img>
         </a>
 
         <div class="head-tool">
           <ul class="head-list">
-            <li><a class="head-list-link-item" href="#">Search</a> </li>
-            <li><a class="head-list-link-item" href="#">Playlist </a> </li>
-            <li><a class="head-list-link-item" href="#">Download </a> </li>
+            <li><a class="head-list-link-item" href="./../client/search.php">Search</a> </li>
+            <li><a class="head-list-link-item" href="./../client/home.php">Playlist </a> </li>
+            <li><a class="head-list-link-item" href="./../client/home.php">Download </a> </li>
           </ul>
           <div class="address-box">
             <div class="address-box-content">

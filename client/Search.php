@@ -264,38 +264,38 @@ if ($searchQuery != "") {
 </head>
 
 <body>
-    <div class="head-wrapper">
-        <div class="head-box">
-            <a href="/">
-                <img class="brand-name" src=".\..\images\musicLogo.png" alt="brand-logo"></img>
-            </a>
+<div class="head-wrapper">
+      <div class="head-box">
+        <a href="./../client/home.php">
+          <img class="brand-name" src=".\..\images\musicLogo.png" alt="brand-logo"></img>
+        </a>
 
-            <div class="head-tool">
-                <ul class="head-list">
-                    <li><a class="head-list-link-item" href="#">Search</a> </li>
-                    <li><a class="head-list-link-item" href="#">Playlist </a> </li>
-                    <li><a class="head-list-link-item" href="#">Download </a> </li>
-                </ul>
-                <div class="address-box">
-                    <div class="address-box-content">
-                        <p class="address-box-location">Igatpuri</p>
-                        <p class="address-box-pincode">422403</p>
-                    </div>
-                    <img
-                        class="drop-down-icon"
-                        src=".\..\images\Vector11.svg"
-                        alt="drop-down-icon"></img>
-
-                    <span class="material-symbols-outlined address-icon" style="color:rgb(207, 199, 192);">
-                        location_on
-                    </span>
-                </div>
-                <div class="profile">
-                    <span class="material-symbols-outlined" style=" color: rgb(207, 199, 192);">
-                        manage_accounts</span>
-                </div>
+        <div class="head-tool">
+          <ul class="head-list">
+            <li><a class="head-list-link-item" href="./../client/search.php">Search</a> </li>
+            <li><a class="head-list-link-item" href="./../client/home.php">Playlist </a> </li>
+            <li><a class="head-list-link-item" href="./../client/home.php">Download </a> </li>
+          </ul>
+          <div class="address-box">
+            <div class="address-box-content">
+              <p class="address-box-location">Igatpuri</p>
+              <p class="address-box-pincode">422403</p>
             </div>
+            <img
+              class="drop-down-icon"
+              src=".\..\images\Vector11.svg"
+              alt="drop-down-icon"></img>
+
+            <span class="material-symbols-outlined address-icon" style="color:rgb(207, 199, 192);">
+              location_on
+            </span>
+          </div>
+          <div class="profile">
+            <span class="material-symbols-outlined" style=" color: rgb(207, 199, 192);">
+              manage_accounts</span>
+          </div>
         </div>
+      </div>
     </div>
     <!-- Side-bar-section -->
     <div class="background-wrapper">

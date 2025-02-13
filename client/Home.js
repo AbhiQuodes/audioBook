@@ -5,7 +5,7 @@ let closeSidebarBtn = document.querySelector(".cancel-btn");
 let searchStartBtn = document.querySelector("#search-btn");
 let searchBtntext = document.querySelector("#search-btn-msg");
 let inputField = document.querySelector(".input-search");
-
+alert("why");
 // Check if browser supports SpeechRecognition
 const SpeechRecognition =
   window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -36,7 +36,7 @@ if (!SpeechRecognition) {
 
       setTimeout(() => {
         //sending the search value in the query parameter;
-        window.location.href = `http://localhost/client/ProductListing.html.php?search_value=${searchValue}`;
+        window.location.href = `http://localhost/music/client/home.php`;
       }, 1000); // Redirects after 3 seconds
     }
   });
