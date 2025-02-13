@@ -1,0 +1,60 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Container */
+form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    margin: 20px auto;
+}
+
+/* Inputs */
+input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Buttons */
+button {
+    width: 100%;
+    padding: 10px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background: #218838;
+}
+
+/* Error message */
+p {
+    color: red;
+}
+
+/* Toggle button */
+button.toggle-btn {
+    background: transparent;
+    color: #007bff;
+    border: none;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+button.toggle-btn:hover {
+    color: #0056b3;
+}

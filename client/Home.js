@@ -16,6 +16,7 @@ if (!SpeechRecognition) {
   recognition.continuous = true; // Keep listening
   recognition.interimResults = true; // Show partial results
   let isListening = false;
+
   searchStartBtn.addEventListener("pointerdown", () => {
     if (!isListening) {
       recognition.start();
@@ -31,9 +32,9 @@ if (!SpeechRecognition) {
 
     isListening = !isListening;
     if (inputField.value != "") {
-        let searchValue=inputField.value;
-    
-        setTimeout(() => {
+      let searchValue = inputField.value;
+
+      setTimeout(() => {
         //sending the search value in the query parameter;
         window.location.href = `http://localhost/client/ProductListing.html.php?search_value=${searchValue}`;
       }, 1000); // Redirects after 3 seconds

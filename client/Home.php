@@ -199,7 +199,7 @@ $songDetails = [
             </span>
           </div>
           <div class="profile">
-            <span class="material-symbols-outlined" style="    color: rgb(207, 199, 192);">
+            <span class="material-symbols-outlined" style=" color: rgb(207, 199, 192);">
               manage_accounts</span>
           </div>
         </div>
@@ -211,10 +211,16 @@ $songDetails = [
       <div class="search-box">
         <span class="material-symbols-outlined" style="color:#fff;">
           search
-        </span> <input
-          class="input-search"
-          type="text"
-          placeholder="Search Songs"></input>
+        </span>
+        <form action="search.php" method="GET" style="width: 80%;">
+          <input type="text" class="input-search" name="query" placeholder="Search music..." onclick="window.location.href='search.php'">
+          <?php
+          if (isset($_GET['query'])) {
+            echo "<script>window.location.href='search.php?query=" . urlencode($_GET['query']) . "'</script>";
+          }
+          ?>
+        </form>
+
       </div>
     </div>
   </div>
@@ -257,11 +263,13 @@ $songDetails = [
       <?php foreach ($songDetails as $song) {
         if ($song["category"] === "Trending") {
           echo "<li class='product-contact-box-list-item' key='{$song['id']}'>";
+          echo "<a href='./songplay.php?id=" . $song['id'] . "'>";
           echo "<span class='favorite-play-heart-icon material-symbols-outlined' style='color: #bda9a9;'>favorite</span>";
           echo "<div class='img-box'>";
           echo "<img src='./../images/musicCardImg1.webp' class='page-product-image' alt='product-img'></img>";
           echo "</div>";
           echo "<div class='text'>{$song['name']}</div>";
+          echo "</a>";
           echo "</li>";
         }
       }; ?>
@@ -278,15 +286,17 @@ $songDetails = [
         </button>
       </div>
     </div>
-    <ul class="page-product-box-list" id="commercial-container">
+    <ul class="page-product-box-list">
       <?php foreach ($songDetails as $song) {
         if ($song["category"] === "Old 90's Song") {
           echo "<li class='product-contact-box-list-item' key='{$song['id']}'>";
+          echo "<a href='./songplay.php?id=" . $song['id'] . "'>";
           echo "<span class='favorite-play-heart-icon material-symbols-outlined' style='color: #bda9a9;'>favorite</span>";
           echo "<div class='img-box'>";
           echo "<img src='./../images/musicCardImg1.webp' class='page-product-image' alt='product-img'></img>";
           echo "</div>";
           echo "<div class='text'>{$song['name']}</div>";
+          echo "</a>";
           echo "</li>";
         }
       }; ?>
@@ -307,11 +317,13 @@ $songDetails = [
       <?php foreach ($songDetails as $song) {
         if ($song["category"] === "English Song") {
           echo "<li class='product-contact-box-list-item' key='{$song['id']}'>";
+          echo "<a href='./songplay.php?id=" . $song['id'] . "'>";
           echo "<span class='favorite-play-heart-icon material-symbols-outlined' style='color: #bda9a9;'>favorite</span>";
           echo "<div class='img-box'>";
           echo "<img src='./../images/musicCardImg1.webp' class='page-product-image' alt='product-img'></img>";
           echo "</div>";
           echo "<div class='text'>{$song['name']}</div>";
+          echo "</a>";
           echo "</li>";
         }
       }; ?>
