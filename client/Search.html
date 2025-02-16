@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+    <link rel="stylesheet" href="Home.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0px;
+            padding: 0;
+
+        }
+
+        .material-symbols-outlined {
+            color: rgb(0, 0, 0);
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 250,
+                'GRAD' 0,
+                'opsz' 24
+        }
+
+
+
+        .search-wrapper {
+            display: flex;
+            width: 100vw;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 25px;
+            top: 30px;
+        }
+
+        .search-box {
+            display: flex;
+            justify-content: space-evenly;
+            width: 90%;
+            height: 40px;
+            padding: 5px 0px;
+            max-width: 650px;
+            background: transparent;
+            box-shadow: 0px 4px 10px 0px rgba(231, 225, 225, 0.06);
+            border-radius: 20px;
+            /* border: 1px solid grey; */
+            align-items: center;
+            min-width: 305px;
+        }
+
+        .search-icon {
+            position: relative;
+            width: 18px;
+            height: 18px;
+        }
+
+        .input-search {
+            color: rgb(224, 215, 215);
+            font-family: Roboto;
+            font-size: 16px;
+            font-weight: 400;
+            position: relative;
+            left: -20px;
+            line-height: 16.41px;
+            text-align: left;
+            text-underline-position: from-font;
+            text-decoration-skip-ink: none;
+            opacity: 1;
+            background: transparent;
+            outline: none;
+            border: none;
+            width: 95%;
+        }
+
+        .category-box::-webkit-scrollbar {
+            height: 0px;
+            /* Set height to zero */
+        }
+
+        .category-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .category-box {
+            display: flex;
+            overflow-x: auto;
+            white-space: nowrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            width: 90vw;
+            max-width: 650px;
+            padding-bottom: 10px;
+        }
+
+        .category-btn {
+            padding: 8px 16px;
+            background: #9b9b9b;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .category-btn:hover {
+            background: #bbb;
+        }
+
+        /* Login Button */
+        .login-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #333;
+            /* Dark gray text */
+            background-color: transparent;
+            /* No background */
+            border: 1px solid #ccc;
+            /* Light gray border */
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .login-btn:hover {
+            background-color: rgb(219, 78, 212);
+            /* Light gray background on hover */
+        }
+
+        /* Login Message */
+        .login-message {
+            margin-top: 8px;
+            font-size: 14px;
+            color: #bebebe;
+            /* Medium gray */
+        }
+
+        .login-wrapper {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            gap: 0px;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            z-index: 30;
+            left: 0;
+            position: fixed;
+            background-color: rgba(61, 59, 59, 0.61);
+            box-shadow: 0px 0px 5px #000000;
+
+        }
+
+        .login-btn {
+            padding: 10px 20px;
+            background: #ce31dd;
+            ;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 10px;
+            text-decoration: none;
+        }
+
+        .songs-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .song-card {
+            width: 200px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .music-container {
+            padding: 50px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .music-box-list-item {
+            display: flex;
+            border-radius: 15px;
+            max-width: 220px;
+            min-width: 160px;
+            flex-direction: column-reverse;
+            height: fit-content;
+            transition: all 0.225s ease-in-out 0s;
+            scale: 1.352;
+            justify-content: space-evenly;
+            align-items: center;
+            min-height: 150px;
+        }
+
+
+
+        .no-results {
+            font-size: 18px;
+            color: red;
+        }
+
+        .music-box-list-item:hover {
+            background: transparent;
+        }
+
+        @media (max-width:600px) {
+            .input-search {
+                left: -8px;
+            }
+
+            .search-wrapper {
+                top: 0px;
+
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="head-wrapper">
+        <div class="head-box">
+            <a href="./../client/home.php">
+                <img class="brand-name" src=".\..\images\musicLogo.png" alt="brand-logo"></img>
+            </a>
+
+            <div class="head-tool">
+                <ul class="head-list">
+                    <li><a class="head-list-link-item active" href="./../client/search.html">Search</a> </li>
+                    <li><a class="head-list-link-item" href="./../client/PlayList.html
+">Playlist </a> </li>
+                    <li><a class="head-list-link-item" id="downloadLink" href="#">Download</a></li>
+                </ul>
+                <div class="address-box">
+                    <div class="address-box-content">
+                        <p class="address-box-location">Igatpuri</p>
+                        <p class="address-box-pincode">422403</p>
+                    </div>
+                    <img
+                        class="drop-down-icon"
+                        src=".\..\images\Vector11.svg"
+                        alt="drop-down-icon"></img>
+
+                    <span class="material-symbols-outlined address-icon" style="color:rgb(207, 199, 192);">
+                        location_on
+                    </span>
+                </div>
+                <div class="profile">
+                    <span class="material-symbols-outlined" style=" color: rgb(207, 199, 192);">
+                        manage_accounts</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Side-bar-section -->
+    <div class="background-wrapper">
+    </div>
+    <div class="side-bar">
+        <img class="cancel-btn" src=".\..\images\closeIcon.svg" alt="cancel-btn">
+
+        <div class="profile-box">
+            <div class="profile">
+                <img src=".\..\images\carbon_user.svg" class="profile-user-icon" alt="profile-icon">
+            </div>
+            <div class="profile-user-details">
+                <p class="profile-user-name" id="profileName">Loading...</p>
+                <p class="basic-detail" id="profileDetails">Loading...</p>
+            </div>
+        </div>
+
+        <ul class="side-bar-list">
+            <li class="side-bar-list-item">
+                <a class="side-bar-list-item-content" href="/">
+                    <p style="text-align:left;"> <a href="./../client/Download.php" class="list-item-name">My Downloads</a></p>
+                </a>
+            </li>
+            <li class="side-bar-list-item">
+                <a class="side-bar-list-item-content" href="/">
+                    <p style="text-align:left;"> <a href="./../client/PlayList.html
+" class="list-item-name">Playlist</a></p>
+                </a>
+            </li>
+
+        </ul>
+
+        <a href="/" class="about-box">
+            <p class="list-item-name">About Music Song</p>
+            <p class="basic-detail">Version 1.0.1</p>
+        </a>
+
+        <div class="log-out-box" id="logoutBtn">
+            <p class="list-item-name">Logout</p>
+        </div>
+    </div>
+    <div class="search-wrapper">
+        <div class="search-box">
+            <span class="material-symbols-outlined" style="color:rgb(165, 155, 155);">
+                search
+            </span>
+            <form action="search.php" method="GET" style="width: 80%;">
+                <input type="text" class="input-search" id="searchInput" value="" placeholder="Search music..." autofocus autocomplete="off">
+                <div class="login-wrapper" style="display:none;">
+                    <a href="./../userAuthentication/Login.php" class="login-btn">Login</a>
+                    <!-- <div class="login-btn">Login       </div> -->
+
+
+                    <br>
+                    <p class="login-message">Please login to access this feature</p>
+                </div>
+            </form>
+
+        </div>
+        <!-- Horizontal Scroll Categories -->
+        <div class="category-container">
+            <div class="category-box">
+                <button class="category-btn active" data-category="All">All</button>
+                <button class="category-btn" data-category="Trending">Trending</button>
+                <button class="category-btn" data-category="Romantic">Romantic</button>
+                <button class="category-btn" data-category="Pop">Pop</button>
+                <button class="category-btn" data-category="Rock">Rock</button>
+                <button class="category-btn" data-category="Hip-Hop">Hip-Hop</button>
+                <button class="category-btn" data-category="Jazz">Jazz</button>
+                <button class="category-btn" data-category="Classical">Classical</button>
+            </div>
+        </div>
+
+    </div>
+    <div class="music-container">
+        <div class="music-box-list" id="songsContainer">
+
+        </div>
+    </div>
+
+    <div class="footnavbar-wrapper">
+        <div class="footnavbar-box">
+            <a href="./Home.php" class="nav-element">
+                <span class="material-symbols-outlined element-icon">
+              home
+            </span>
+            <p class="element-icon-name">Home</p>
+          </a>
+          <a href="./Search.html" class="nav-element">
+            <span class="material-symbols-outlined element-icon active-foot-bar">
+              search </span>
+            <p class="element-icon-name">Search</p>
+          </a>
+          <a href="#" class="nav-element" class="element-icon" id="search-btn">
+            <img src="./../images/audioIcon.png" style=" scale:1.463 ;width:60px; height:40px; position:relative;top:-20px; " class="element-icon" alt="nav-icon"></img>
+            <p class="element-icon-name" style=" position:relative ;top:-7px;" id="search-btn-msg">Search</p>
+          </a>
+          <a href="./playlist.html" class="nav-element">
+            <span class="material-symbols-outlined element-icon">
+              Genres
+            </span>
+            <p class="element-icon-name">playlist</p>
+          </a>
+          <a href="./Download.php" class="nav-element">
+            <span class="material-symbols-outlined element-icon">
+              download
+            </span>
+            <p class="element-icon-name">Download</p>
+          </a>
+        </div>
+      </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+
+            let username = localStorage.getItem("username");
+            if (username) {
+
+                // If user is logged in, show profile details
+                let dob = localStorage.getItem("dob") || "N/A";
+                let city = localStorage.getItem("city") || "Unknown";
+
+                document.querySelector(".profile-user-name").innerHTML = username;
+                document.querySelector(".basic-detail").innerHTML = `DOB ${dob}  ${city}`;
+
+                // Show Logout button
+                let authBtn = document.querySelector(".log-out-box");
+                authBtn.innerText = "Logout";
+                authBtn.style.cursor = "pointer";
+
+                authBtn.addEventListener("click", function() {
+                    localStorage.clear(); // Clears all stored data
+                    window.location.reload(); // Reload the page to reflect changes        window.location.href = "./../client/Home.php"; // Redirect to Home
+                });
+            } else {
+                // If user is not logged in, show Login button
+
+                document.querySelector(".profile-user-name").innerHTML = "Guest User";
+                document.querySelector(".basic-detail").innerHTML = "Please log in.";
+                let authBtn = document.querySelector(".log-out-box");
+                authBtn.innerText = "Login";
+                authBtn.style.cursor = "pointer";
+
+                authBtn.addEventListener("click", function() {
+                    window.location.href = "./../userAuthentication/Login.php"; // Redirect to Login
+                });
+            }
+
+            // Read userId from localStorage
+            const userId = localStorage.getItem('userId');
+
+            // Get the download link element
+            const downloadLink = document.getElementById("downloadLink");
+
+            // If userId exists, update the href dynamically
+            if (userId) {
+                downloadLink.href = `./../client/Download.php?userId=${encodeURIComponent(userId)}`;
+            } else {
+                downloadLink.href = "#"; // Stay on the same page if userId is missing
+                downloadLink.addEventListener("click", function(event) {
+                    event.preventDefault();
+                    alert("User not found. Please log in.");
+                });
+            }
+
+
+
+            // Function to get query parameter from URL
+            function getQueryParam(name) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(name) || ""; // Return empty string if not found
+            }
+
+            // Get the search query from the URL
+            const searchQuery = getQueryParam("query");
+
+            // Check if the user is logged in (exists in localStorage)
+
+            let isLoggedIn = !!username; // Convert to boolean
+            let loginWrapper = document.querySelector('.login-wrapper');
+
+            if (!isLoggedIn && loginWrapper) {
+                loginWrapper.style.display = "flex";
+            }
+
+            let searchInput = document.getElementById("searchInput");
+            let categoryButtons = document.querySelectorAll(".category-btn");
+            let songsContainer = document.getElementById("songsContainer");
+
+            if (searchInput) {
+                searchInput.value = searchQuery;
+            }
+
+            function fetchResults() {
+                if (searchInput.value.trim() !== '') {
+                    let query = searchInput.value.trim();
+                    let category = document.querySelector(".category-btn.active")?.dataset.category || "All";
+
+                    // Fetch filtered results from the server
+                    fetch(`search.php?query=${encodeURIComponent(query)}&category=${encodeURIComponent(category)}`)
+                        .then(response => response.text())
+                        .then(data => {
+                            if (songsContainer) {
+                                songsContainer.innerHTML = data; // Only update song results
+                            }
+                        })
+                        .catch(error => console.error("Error fetching results:", error));
+                }
+            }
+
+            // Event listener for search input
+            if (searchInput) {
+                searchInput.addEventListener("input", fetchResults);
+            }
+
+            // Event listeners for category buttons
+            categoryButtons.forEach(button => {
+                button.addEventListener("click", function() {
+                    categoryButtons.forEach(btn => btn.classList.remove("active")); // Remove active class from all
+                    this.classList.add("active"); // Set active class to clicked button
+                    fetchResults(); // Fetch results based on new category
+                });
+            });
+
+            // Sidebar Profile Handling
+            let profileBtn = document.querySelector(".profile");
+            let sideBarContainer = document.querySelector(".side-bar");
+            let fadeBackGroundContainer = document.querySelector(".background-wrapper");
+            let closeSidebarBtn = document.querySelector(".cancel-btn");
+
+            if (profileBtn) {
+                profileBtn.addEventListener("pointerdown", () => {
+                    if (sideBarContainer && fadeBackGroundContainer) {
+                        sideBarContainer.style.right = "0";
+                        fadeBackGroundContainer.style.display = "flex";
+                    }
+                });
+            }
+
+            if (isLoggedIn) {
+                // If user is logged in, show profile details
+                let dob = localStorage.getItem("dob") || "N/A";
+                let city = localStorage.getItem("city") || "Unknown";
+
+                document.querySelector(".profile-user-name").innerText = username;
+                document.querySelector(".basic-detail").innerText = `DOB: ${dob}, City: ${city}`;
+
+                // Show Logout button
+                let authBtn = document.getElementById("authBtn");
+                if (authBtn) {
+                    authBtn.innerText = "Logout";
+                    authBtn.style.cursor = "pointer";
+
+                    authBtn.addEventListener("click", function() {
+                        localStorage.clear(); // Clears all stored data
+                        window.location.href = "./../client/Home.php"; // Redirect to Home
+                    });
+                }
+            } else {
+                // If user is not logged in, show Login button
+                let profileName = document.getElementById("profileName");
+                let profileDetails = document.getElementById("profileDetails");
+                let authBtn = document.getElementById("authBtn");
+
+                if (profileName) profileName.innerText = "Guest User";
+                if (profileDetails) profileDetails.innerText = "Please log in.";
+
+                if (authBtn) {
+                    authBtn.innerText = "Login";
+                    authBtn.style.cursor = "pointer";
+
+                    authBtn.addEventListener("click", function() {
+                        window.location.href = "./../userAuthentication/Login.php"; // Redirect to Login
+                    });
+                }
+            }
+
+            // Sidebar Close Events
+            if (closeSidebarBtn) {
+                closeSidebarBtn.addEventListener("pointerdown", () => {
+                    sideBarContainer.style.right = "-300px";
+                    fadeBackGroundContainer.style.display = "none";
+                });
+            }
+
+            if (fadeBackGroundContainer) {
+                fadeBackGroundContainer.addEventListener("pointerdown", () => {
+                    sideBarContainer.style.right = "-300px";
+                    fadeBackGroundContainer.style.display = "none";
+                });
+            }
+        });
+    </script>
+
+</body>
+
+</html>

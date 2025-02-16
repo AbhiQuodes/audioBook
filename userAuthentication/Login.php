@@ -1,96 +1,169 @@
 <?php
+session_start();
+
 // Connect to MySQL
 $conn = new mysqli("localhost", "root", "");
-session_start();
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
 
 // Create Database if not exists
 $sqlDB = "CREATE DATABASE IF NOT EXISTS userDB";
-if ($conn->query($sqlDB) === TRUE) {
-    $conn->select_db("userDB"); // Select the database
-} else {
-    die("Error creating database: " . $conn->error);
-}
+$conn->query($sqlDB);
+$conn->select_db("userDB"); // Select the database
 
 // Create Users Table if not exists
 $sqlTable = "CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL UNIQUE,  -- Making email unique
     city VARCHAR(100),
     pincode VARCHAR(10),
+    dob DATE,
+    user_type ENUM('admin', 'user') NOT NULL DEFAULT 'user',
     password VARCHAR(255) NOT NULL
-)";
-if ($conn->query($sqlTable) !== TRUE) {
-    die("Error creating table: " . $conn->error);
-}
+);
 
-// Store login/signup messages
+";
+
+$conn->query($sqlTable);
+
 $message = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $conn->select_db("userDB"); // Select database
-    $username = $_POST["username"];
-    $checkUser = "SELECT * FROM users WHERE username='$username'";
-    $result = $conn->query($checkUser);
+    $email = trim($_POST["email"]);
+    $password = $_POST["password"];
 
-    if ($result->num_rows > 0) {
-        // Existing User (Login)
-        $password = md5($_POST["password"]);
-        $row = $result->fetch_assoc();
-        if ($row["password"] == $password) {
-            $_SESSION["username"] = $username;
-            echo "<script>
-                    localStorage.setItem('username', '$username');
-                    alert('Login Successful');
-                    window.location.href = './../client/Home.php';
-                  </script>";
-        } else {
-            $message = "Incorrect Password!";
-        }
-    } else {
-        // New User (Signup)
-        if (isset($_POST["city"]) && isset($_POST["pincode"]) && isset($_POST["password"]) && isset($_POST["confirm_password"])) {
-            $city = $_POST["city"];
-            $pincode = $_POST["pincode"];
-            $password = $_POST["password"];
-            $confirm_password = $_POST["confirm_password"];
+    if (!empty($email) && !empty($password)) {
+        // Check if user exists
+// Prepare SQL statement to fetch user details
+$stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
 
-            if ($password !== $confirm_password) {
-                $message = "Passwords do not match!";
+
+
+        
+
+        if ($result->num_rows > 0) {
+            // Existing User (Login)
+            $row = $result->fetch_assoc();
+            $hashed_password = md5($password); // Hash the user input
+            if ($hashed_password === $row["password"]) {
+                $_SESSION["username"] = $row["username"];
+                $_SESSION["email"] = $row["email"];
+                $_SESSION["dob"] = $row["dob"];
+                $_SESSION["city"] = $row["city"];
+                $_SESSION["pincode"] = $row["pincode"];
+                $_SESSION["user_type"] = $row["user_type"];
+                $_SESSION["userId"] = $row["id"];
+
+                echo "<script>
+                localStorage.setItem('userId', '" . $row['id'] . "');
+                localStorage.setItem('email', '" . $row['email'] . "');
+                localStorage.setItem('username', '" . $row['username'] . "');
+                localStorage.setItem('dob', '" . $row['dob'] . "');
+                localStorage.setItem('city', '" . $row['city'] . "');
+                localStorage.setItem('user_type', '" . $row['user_type'] . "');
+                localStorage.setItem('pincode', '" . $row['pincode'] . "');
+                window.location.href = '" . (($row["user_type"] == 'admin') ? "./../admin/OperationInterface.php" : "./../client/home.php") . "';
+            </script>";
             } else {
-                $hashed_password = md5($password);
-                $insertUser = "INSERT INTO users (username, city, pincode, password) VALUES ('$username', '$city', '$pincode', '$hashed_password')";
-                if ($conn->query($insertUser) === TRUE) {
-                    $_SESSION["username"] = $username;
-                    echo "<script>
-                            localStorage.setItem('username', '$username');
-                            alert('Signup Successful');
-                            window.location.href = './../client/Home.php';
-                          </script>";
-                } else {
-                    $message = "Signup Failed!";
-                }
+                $message = "Incorrect Password!";
             }
         } else {
-            $message = "User not found. Please Sign Up.";
+            // New User (Signup)
+            if (
+                isset($_POST["email"]) && isset($_POST["city"]) && isset($_POST["pincode"]) && isset($_POST["dob"]) &&
+                isset($_POST["password"]) && isset($_POST["confirm_password"]) && isset($_POST["user_type"])
+            ) {
+                $city = trim($_POST["city"]);
+                $pincode = trim($_POST["pincode"]);
+                $dob = $_POST["dob"];
+                $confirm_password = $_POST["confirm_password"];
+                $user_type = $_POST["user_type"];
+                $email = $_POST["email"];
+                $username = trim($_POST["username"]);
+
+
+
+                if ($password !== $confirm_password) {
+                    $message = "Passwords do not match!";
+                } elseif ($user_type !== "admin" && $user_type !== "user") {
+                    $message = "Invalid user type!";
+                } else {
+                    $hashed_password = md5($_POST["password"]);
+                    $insertUser = "INSERT INTO users (username, email, city, pincode, dob, user_type, password) 
+                    VALUES ('$username', '$email', '$city', '$pincode', '$dob', '$user_type', '$hashed_password')";
+
+                      
+                        
+                    if ($conn->query($insertUser) === TRUE) {
+                        $_SESSION["username"] = $username;
+                        $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
+                        $stmt->bind_param("s", $email);
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        
+                        if ($row = $result->fetch_assoc()) {
+                            $userId = $row["id"];
+                        }
+                        else{
+                            $userId = -1;
+
+                        }
+                        
+                        $stmt->close();
+                        $_SESSION["username"] = $row["username"];
+                        $_SESSION["email"] = $row["email"];
+                        $_SESSION["dob"] = $row["dob"];
+                        $_SESSION["city"] = $row["city"];
+                        $_SESSION["pincode"] = $row["pincode"];
+                        $_SESSION["user_type"] = $row["user_type"];
+                        $_SESSION["userId"] = $row["id"];
+                        echo "<script>
+                        localStorage.setItem('username', '$username');
+                        localStorage.setItem('userId', '$userId');
+                        localStorage.setItem('email', '$email');
+                        localStorage.setItem('dob', '$dob');
+                        localStorage.setItem('user_type', '$user_type');
+                        localStorage.setItem('city', '$city');
+                        localStorage.setItem('pincode', '$pincode');
+                        window.location.href = '" . (($user_type == 'admin') ? "./../admin/OperationInterface.php" : "./../client/home.php") . "';
+                        </script>";
+                    } else {
+                        if($conn->error == "Duplicate entry '$email' for key 'unique_email'")
+                        {
+                            $message ="Email id already Exist";
+                        }
+                        else{
+
+                            $message = "Signup  Failed!";
+                        }
+                    }
+                }
+            } else {
+                $message = "Please fill in all fields.";
+            }
         }
+    } else {
+        $message = "email and Password are required!";
     }
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login & Signup</title>
-    <link href="./login.css" rel="stylesheet"> 
+    <link href="./login.css" rel="stylesheet">
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            if (localStorage.getItem("username")) {
-                window.location.href = "./../client/home.php";
-            }
-        });
-
         function toggleForm(isSignup) {
             let loginForm = document.getElementById("loginForm");
             let signupForm = document.getElementById("signupForm");
@@ -113,12 +186,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     </script>
     <style>
+        ::-webkit-scrollbar {
+            height: 0px;
+            width: 0px;
+        }
+
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             background: #f8f8f8;
-            padding: 0px;   
         }
+
         .container {
             background: #fff;
             padding: 20px;
@@ -127,24 +205,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             max-width: 380px;
             margin: auto;
             position: relative;
-            top:150px;
-            min-width: 280px;
-
+            top: 150px;
         }
 
-        form{
-            width:90%;
-        }
-        h2 {
-            color: #333;
-        }
-        form input {
+        form input,
+        select {
             width: 90%;
             padding: 10px;
             margin: 10px 0;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
+
         button {
             background: #ce31dd;
             color: white;
@@ -152,15 +224,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             padding: 10px;
             border-radius: 5px;
             cursor: pointer;
-            max-width: 300px;
             width: 100%;
-            margin: auto;
-            display: block;
             margin-top: 30px;
         }
+
         button:hover {
             background: #b020cc;
         }
+
         #toggleButton {
             margin-top: 10px;
             background: none;
@@ -169,40 +240,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             cursor: pointer;
             font-size: 14px;
         }
+
         #toggleButton:hover {
             text-decoration: underline;
         }
-        @media(max-width :600px)
-        {
-            form{
-                width:98%;
-            }
-            .container {
-           
-            top:100px;
-
-        }
-        }
     </style>
 </head>
+
 <body>
 
     <div class="container">
         <h2 id="formHeading">Login</h2>
         <?php if ($message) echo "<p style='color:red;'>$message</p>"; ?>
 
-        <form id="loginForm" method="POST" style="box-shadow:0px 0px 0px black">
-            <input type="text" name="username" placeholder="Username" required><br>
+        <!-- Login Form -->
+        <form id="loginForm" method="POST">
+            <input type="email" name="email" placeholder="Email" required><br>
             <input type="password" name="password" placeholder="Password" required><br>
             <button type="submit">Login</button>
         </form>
 
+        <!-- Signup Form -->
         <div id="signupForm" style="display:none;">
-            <!-- <h2>Sign-Up</h2> -->
-            <form method="POST" style="box-shadow:0px 0px 0px black">
+            <form method="POST">
                 <input type="text" name="username" placeholder="Username" required><br>
+                <input type="email" name="email" placeholder="Email" required><br>
                 <input type="text" name="city" placeholder="City" required><br>
                 <input type="text" name="pincode" placeholder="Pincode" required><br>
+                <input type="date" name="dob" required><br>
+                <select name="user_type" required>
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                </select><br>
                 <input type="password" name="password" placeholder="Password" required><br>
                 <input type="password" name="confirm_password" placeholder="Confirm Password" required><br>
                 <button type="submit">Sign Up</button>
@@ -213,4 +282,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
 </body>
+
 </html>

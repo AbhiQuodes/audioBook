@@ -1,152 +1,60 @@
 <?php
+include "./../userAuthentication/config.php";
+// Fetch data from musicsongs table
+$sql = "SELECT id, title, category, duration FROM musicsongs";
+$result = $conn->query($sql);
 
-$songDetails = [
-  [
-    "id" => 1,
-    "name" => "Blinding Lights",
-    "category" => "Trending",
-    "duration" => "3:22",
-    "genre" => "Synthwave, Pop"
-  ],
-  [
-    "id" => 2,
-    "name" => "Shape of You",
-    "category" => "Trending",
-    "duration" => "3:54",
-    "genre" => "Pop"
-  ],
-  [
-    "id" => 3,
-    "name" => "Bohemian Rhapsody",
-    "category" => "Old 90's Song",
-    "duration" => "5:55",
-    "genre" => "Rock"
-  ],
-  [
-    "id" => 4,
-    "name" => "Believer",
-    "category" => "Trending",
-    "duration" => "3:24",
-    "genre" => "Rock, Pop"
-  ],
-  [
-    "id" => 5,
-    "name" => "Hotel California",
-    "category" => "Old 90's Song",
-    "duration" => "6:31",
-    "genre" => "Rock"
-  ],
-  [
-    "id" => 6,
-    "name" => "Someone Like You",
-    "category" => "English Song",
-    "duration" => "4:45",
-    "genre" => "Pop, Soul"
-  ],
-  [
-    "id" => 7,
-    "name" => "Perfect",
-    "category" => "Trending",
-    "duration" => "4:23",
-    "genre" => "Pop"
-  ],
-  [
-    "id" => 8,
-    "name" => "Billie Jean",
-    "category" => "Old 90's Song",
-    "duration" => "4:54",
-    "genre" => "Pop"
-  ],
-  [
-    "id" => 9,
-    "name" => "Let Her Go",
-    "category" => "English Song",
-    "duration" => "4:12",
-    "genre" => "Folk, Pop"
-  ],
-  [
-    "id" => 10,
-    "name" => "Rolling in the Deep",
-    "category" => "English Song",
-    "duration" => "3:49",
-    "genre" => "Pop, Soul"
-  ],
-  [
-    "id" => 11,
-    "name" => "Sweet Child O' Mine",
-    "category" => "Old 90's Song",
-    "duration" => "5:56",
-    "genre" => "Rock"
-  ],
-  [
-    "id" => 12,
-    "name" => "Closer",
-    "category" => "Trending",
-    "duration" => "4:04",
-    "genre" => "EDM, Pop"
-  ],
-  [
-    "id" => 13,
-    "name" => "Take Me to Church",
-    "category" => "English Song",
-    "duration" => "4:01",
-    "genre" => "Indie Rock"
-  ],
-  [
-    "id" => 14,
-    "name" => "Uptown Funk",
-    "category" => "Trending",
-    "duration" => "4:30",
-    "genre" => "Funk, Pop"
-  ],
-  [
-    "id" => 15,
-    "name" => "In the End",
-    "category" => "Old 90's Song",
-    "duration" => "3:36",
-    "genre" => "Rock, Rap"
-  ],
-  [
-    "id" => 16,
-    "name" => "Memories",
-    "category" => "Trending",
-    "duration" => "3:15",
-    "genre" => "Pop"
-  ],
-  [
-    "id" => 17,
-    "name" => "Radioactive",
-    "category" => "Trending",
-    "duration" => "3:06",
-    "genre" => "Alternative Rock"
-  ],
-  [
-    "id" => 18,
-    "name" => "Yesterday",
-    "category" => "Old 90's Song",
-    "duration" => "2:05",
-    "genre" => "Rock"
-  ],
-  [
-    "id" => 19,
-    "name" => "Counting Stars",
-    "category" => "English Song",
-    "duration" => "4:17",
-    "genre" => "Pop Rock"
-  ],
-  [
-    "id" => 20,
-    "name" => "Shape of My Heart",
-    "category" => "Old 90's Song",
-    "duration" => "4:39",
-    "genre" => "Pop"
-  ]
-];
+// Store fetched songs in $songDetails array
+$songDetails = [];
+
+if ($result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+    $songDetails[] = [
+      "id" => $row["id"],
+      "name" => $row["title"],
+      "category" => $row["category"],
+      "duration" => $row["duration"],
+    ];
+  }
+}
+
+// Close connection
+$conn->close();
+
+// use PHPMailer\PHPMailer\PHPMailer;
+// use PHPMailer\PHPMailer\Exception;
+
+// require './../PHPMailer/Exception.php';
+// require './../PHPMailer/PHPMailer.php';
+// require './../PHPMailer/SMTP.php';
+
+// $mail = new PHPMailer(true);
+
+// try {
+//   $mail->isSMTP();
+//   $mail->Host = 'smtp.gmail.com';
+//   $mail->SMTPAuth = true;
+//   $mail->Username = 'your-email@gmail.com'; // Your Gmail
+//   $mail->Password = 'your-email-password'; // Use App Password for security
+//   $mail->SMTPSecure = 'tls';
+//   $mail->Port = 587;
+
+//   $mail->setFrom('your-email@gmail.com', 'Your Name');
+//   $mail->addAddress('recipient@example.com');
+
+//   $mail->isHTML(true);
+//   $mail->Subject = 'Contact Form Submission';
+//   $mail->Body    = 'Hello, this is a test email from your contact form.';
+
+//   $mail->send();
+//   echo 'Message sent successfully!';
+// } catch (Exception $e) {
+//   echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+// }
+
 
 
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -180,9 +88,10 @@ $songDetails = [
 
         <div class="head-tool">
           <ul class="head-list">
-            <li><a class="head-list-link-item" href="./../client/search.php">Search</a> </li>
-            <li><a class="head-list-link-item" href="./../client/home.php">Playlist </a> </li>
-            <li><a class="head-list-link-item" href="./../client/home.php">Download </a> </li>
+            <li><a class="head-list-link-item" href="./../client/search.html">Search</a> </li>
+            <li><a class="head-list-link-item" href="./../client/PlayList.html
+">Playlist </a> </li>
+            <li><a class="head-list-link-item" id="downloadLink" href="#">Download</a></li>
           </ul>
           <div class="address-box">
             <div class="address-box-content">
@@ -205,20 +114,19 @@ $songDetails = [
         </div>
       </div>
     </div>
-
     <!-- SearchBar seaction -->
     <div class="search-wrapper">
-      <div class="search-box">
+      <div class="search-box" onclick="window.location.href='search.html'">
         <span class="material-symbols-outlined" style="color:#fff;">
           search
         </span>
         <form action="search.php" method="GET" style="width: 80%;">
-          <input type="text" class="input-search" name="query" placeholder="Search music..." onclick="window.location.href='search.php'">
-          <?php
-          if (isset($_GET['query'])) {
-            echo "<script>window.location.href='search.php?query=" . urlencode($_GET['query']) . "'</script>";
-          }
-          ?>
+          <input type="text" class="input-search" name="query" placeholder="Search music...">
+          <!-- <?php
+                if (isset($_GET['query'])) {
+                  echo "<script>window.location.href='search.php?query=" . urlencode($_GET['query']) . "'</script>";
+                }
+                ?> -->
         </form>
 
       </div>
@@ -228,12 +136,6 @@ $songDetails = [
   <section class="introductory-container">
     <div class="introductory-text-box">
       <div class="introductory-para">
-        <!-- <div class="para-img-box">
-          <img
-            class="para-img"
-            src='./../images/introImage.png'
-            alt="intro-image"></img>
-        </div> -->
         <div class="introductory-text">
           <div class="introductory-text-one">
             Feel the rhythm, embrace the melody.
@@ -244,12 +146,8 @@ $songDetails = [
       </div>
     </div>
   </section>
-
-
-
   <!-- song-list -->
-
-  <div class="property-container">
+  <div class="music-container">
     <div class="category-wrapper">
       <div class="category-box">
         <h2 class="category-name">Trending Songs</h2>
@@ -259,14 +157,14 @@ $songDetails = [
         </button>
       </div>
     </div>
-    <ul class="page-product-box-list" id="residential-container">
+    <ul class="music-box-list" id="residential-container">
       <?php foreach ($songDetails as $song) {
-        if ($song["category"] === "Trending") {
-          echo "<li class='product-contact-box-list-item' key='{$song['id']}'>";
+        if ($song["category"] === "Trending" || $song["category"] === "Classical" || $song["category"] === "Pop") {
+          echo "<li class='music-box-list-item' key='{$song['id']}'>";
           echo "<a href='./songplay.php?id=" . $song['id'] . "'>";
           echo "<span class='favorite-play-heart-icon material-symbols-outlined' style='color: #bda9a9;'>favorite</span>";
           echo "<div class='img-box'>";
-          echo "<img src='./../images/musicCardImg1.webp' class='page-product-image' alt='product-img'></img>";
+          echo "<img src='./../images/musicCardImg1.webp' class='music-image' alt='music-img'></img>";
           echo "</div>";
           echo "<div class='text'>{$song['name']}</div>";
           echo "</a>";
@@ -274,26 +172,22 @@ $songDetails = [
         }
       }; ?>
     </ul>
-
-
-
     <div class="category-wrapper">
       <div class="category-box">
         <h2 class="category-name">Old Songs</h2>
-
         <button class="view-btn">
           View All
         </button>
       </div>
     </div>
-    <ul class="page-product-box-list">
+    <ul class="music-box-list">
       <?php foreach ($songDetails as $song) {
-        if ($song["category"] === "Old 90's Song") {
-          echo "<li class='product-contact-box-list-item' key='{$song['id']}'>";
+        if ($song["category"] === "Romantic") {
+          echo "<li class='music-box-list-item' key='{$song['id']}'>";
           echo "<a href='./songplay.php?id=" . $song['id'] . "'>";
           echo "<span class='favorite-play-heart-icon material-symbols-outlined' style='color: #bda9a9;'>favorite</span>";
           echo "<div class='img-box'>";
-          echo "<img src='./../images/musicCardImg1.webp' class='page-product-image' alt='product-img'></img>";
+          echo "<img src='./../images/musicCardImg1.webp' class='music-image' alt='music-img'></img>";
           echo "</div>";
           echo "<div class='text'>{$song['name']}</div>";
           echo "</a>";
@@ -313,14 +207,14 @@ $songDetails = [
         </button>
       </div>
     </div>
-    <ul class="page-product-box-list" id="rental-container">
+    <ul class="music-box-list" id="rental-container">
       <?php foreach ($songDetails as $song) {
-        if ($song["category"] === "English Song") {
-          echo "<li class='product-contact-box-list-item' key='{$song['id']}'>";
+        if ($song["category"] === "Other") {
+          echo "<li class='music-box-list-item' key='{$song['id']}'>";
           echo "<a href='./songplay.php?id=" . $song['id'] . "'>";
           echo "<span class='favorite-play-heart-icon material-symbols-outlined' style='color: #bda9a9;'>favorite</span>";
           echo "<div class='img-box'>";
-          echo "<img src='./../images/musicCardImg1.webp' class='page-product-image' alt='product-img'></img>";
+          echo "<img src='./../images/musicCardImg1.webp' class='music-image' alt='music-img'></img>";
           echo "</div>";
           echo "<div class='text'>{$song['name']}</div>";
           echo "</a>";
@@ -335,85 +229,44 @@ $songDetails = [
   <div class="background-wrapper">
   </div>
   <div class="side-bar">
-    <img class="cancel-btn" src=".\..\images\closeIcon.svg" alt="cancel-btn"></img>
+    <img class="cancel-btn" src=".\..\images\closeIcon.svg" alt="cancel-btn">
+
     <div class="profile-box">
       <div class="profile">
-
-        <img
-          src=".\..\images\carbon_user.svg"
-          class="profile-user-icon"
-          alt="profile-icon"></img>
+        <img src=".\..\images\carbon_user.svg" class="profile-user-icon" alt="profile-icon">
       </div>
       <div class="profile-user-details">
-        <p class="profile-user-name">Abhinav Kumar</p>
-        <p class="basic-detail">Male , DOB 1 Jan 2008</p>
+        <p class="profile-user-name" id="profileName">Loading...</p>
+        <p class="basic-detail" id="profileDetails">Loading...</p>
       </div>
-      <!-- <img src={editIcon} class="edit-icon" alt="edit-icon"></img> -->
     </div>
+
     <ul class="side-bar-list">
       <li class="side-bar-list-item">
         <a class="side-bar-list-item-content" href="/">
-          <!-- <img
-                  src={orderIcon}
-                  class="list-item-icon"
-                  alt="list-icon"
-                ></img> -->
-          <p class="list-item-name">My Orders</p>
+          <p style="text-align:left;"> <a href="./../client/Download.php" class="list-item-name">My Downloads</a></p>
         </a>
       </li>
       <li class="side-bar-list-item">
         <a class="side-bar-list-item-content" href="/">
-          <!-- <img
-                  src={playIcon}
-                  class="list-item-icon"
-                  alt="list-icon"
-                ></img> -->
-          <p class="list-item-name">playlist</p>
+          <p style="text-align:left;"> <a href="./../client/PlayList.html
+" class="list-item-name">Playlist</a></p>
         </a>
       </li>
 
-      <li class="side-bar-list-item">
-        <a class="side-bar-list-item-content" href="/">
-          <!-- <img
-                  src={passwordIcon}
-                  class="list-item-icon"
-                  alt="list-icon"
-                ></img> -->
-          <p class="list-item-name">Change Password</p>
-        </a>
-      </li>
-
-      <li class="side-bar-list-item">
-        <a class="side-bar-list-item-content" href="/">
-          <!-- <img
-                  src={deliveryIcon}
-                  class="list-item-icon"
-                  alt="list-icon"
-                ></img> -->
-          <p class="list-item-name">Delivery Addresses</p>
-        </a>
-      </li>
     </ul>
 
     <a href="/" class="about-box">
-      <!-- <img src={infoIcon} class="list-item-icon" alt="list-icon"></img> -->
-      <p class="list-item-name">
-        About music song
-        <!-- <p class="basic-detail" style={{ fontSize "10px" }}> -->
-        <p class="basic-detail">
-          Version 1.0.1
-        </p>
-      </p>
+      <p class="list-item-name">About Music Song</p>
+      <p class="basic-detail">Version 1.0.1</p>
     </a>
-    <div class="log-out-box">
-      <!-- <img
-              src={logOutIcon}
-              class="list-item-icon"
-              alt="list-icon"
-            ></img> -->
+
+    <div class="log-out-box" id="logoutBtn">
       <p class="list-item-name">Logout</p>
     </div>
   </div>
+
+
 
   <!-- Contact Section Wrapper -->
   <div class="contact-wrapper">
@@ -424,7 +277,7 @@ $songDetails = [
         <h2>Quick Support</h2>
 
         <form>
-          <input type="text" placeholder="Your Name" required />
+        <input type="text" placeholder="Your Name" required />
           <input type="tel" placeholder="Your Phone" required />
           <input type="text" placeholder="Subject" required />
           <textarea placeholder="Write Message" rows="5" required></textarea>
@@ -457,13 +310,13 @@ $songDetails = [
   <!-- foot-navigation-bar-->
   <div class="footnavbar-wrapper">
     <div class="footnavbar-box">
-      <a href="#" class="nav-element">
-        <span class="material-symbols-outlined element-icon">
+    <a href="./Home.php" class="nav-element">
+    <span class="material-symbols-outlined element-icon active-foot-bar">
           home
         </span>
         <p class="element-icon-name">Home</p>
       </a>
-      <a href="#" class="nav-element">
+      <a href="./Search.html" class="nav-element">
         <span class="material-symbols-outlined element-icon">
           search </span>
         <p class="element-icon-name">Search</p>
@@ -472,13 +325,14 @@ $songDetails = [
         <img src="./../images/audioIcon.png" style=" scale:1.463 ;width:60px; height:40px; position:relative;top:-20px; " class="element-icon" alt="nav-icon"></img>
         <p class="element-icon-name" style=" position:relative ;top:-7px;" id="search-btn-msg">Search</p>
       </a>
-      <a href="#" class="nav-element">
+      <a href="./playlist.html" class="nav-element">
         <span class="material-symbols-outlined element-icon">
-          genres
+        Genres
+
         </span>
         <p class="element-icon-name">playlist</p>
       </a>
-      <a href="#" class="nav-element">
+      <a href="./Download.php" class="nav-element">
         <span class="material-symbols-outlined element-icon">
           download
         </span>
@@ -488,14 +342,228 @@ $songDetails = [
   </div>
 
 
+  <script>
+    let profileBtn = document.querySelector(".profile");
+    let sideBarContainer = document.querySelector(".side-bar");
+    let fadeBackGroundContainer = document.querySelector(".background-wrapper");
+    let closeSidebarBtn = document.querySelector(".cancel-btn");
+    let searchStartBtn = document.querySelector("#search-btn");
+    let searchBtntext = document.querySelector("#search-btn-msg");
+    let inputField = document.querySelector(".input-search");
+    let username = localStorage.getItem("username");
+    let dob = localStorage.getItem("dob") || "N/A";
+    let city = localStorage.getItem("city") || "Unknown";
+
+    const userId = localStorage.getItem('userId');
+
+    // Get the download link element
+    const downloadLink = document.getElementById("downloadLink");
+
+    // If userId exists, update the href dynamically
+    if (userId) {
+      downloadLink.href = `./../client/Download.php?userId=${encodeURIComponent(userId)}`;
+    } else {
+      downloadLink.href = "#"; // Stay on the same page if userId is missing
+      downloadLink.addEventListener("click", function(event) {
+        event.preventDefault();
+        alert("User not found. Please log in.");
+      });
+    }
+
+    // Fetch username from localStorage
+    if (username) {
+
+      // If user is logged in, show profile details
+      let dob = localStorage.getItem("dob") || "N/A";
+      let city = localStorage.getItem("city") || "Unknown";
+
+      document.querySelector(".profile-user-name").innerHTML = username;
+      document.querySelector(".basic-detail").innerHTML = `DOB ${dob}  ${city}`;
+
+      // Show Logout button
+      let authBtn = document.querySelector(".log-out-box");
+      authBtn.innerText = "Logout";
+      authBtn.style.cursor = "pointer";
+
+      authBtn.addEventListener("click", function() {
+        localStorage.clear(); // Clears all stored data
+        window.location.reload(); // Reload the page to reflect changes        window.location.href = "./../client/Home.php"; // Redirect to Home
+      });
+    } else {
+      // If user is not logged in, show Login button
+
+      document.querySelector(".profile-user-name").innerHTML = "Guest User";
+      document.querySelector(".basic-detail").innerHTML = "Please log in.";
+      let authBtn = document.querySelector(".log-out-box");
+      authBtn.innerText = "Login";
+      authBtn.style.cursor = "pointer";
+
+      authBtn.addEventListener("click", function() {
+        window.location.href = "./../userAuthentication/Login.php"; // Redirect to Login
+      });
+    }
+
+
+
+    // Check if browser supports SpeechRecognition
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("Speech Recognition not supported in your browser.");
+    } else {
+      const recognition = new SpeechRecognition();
+      recognition.continuous = true; // Keep listening
+      recognition.interimResults = true; // Show partial results
+      let isListening = false;
+
+      searchStartBtn.addEventListener("pointerdown", () => {
+        if (!isListening) {
+          recognition.start();
+          searchBtntext.textContent = "Listening";
+        }
+
+        isListening = !isListening;
+      });
+
+      searchStartBtn.addEventListener("pointerup", () => {
+        recognition.stop();
+        searchBtntext.textContent = "Search";
+
+        isListening = !isListening;
+        if (inputField.value != "") {
+          let searchValue = inputField.value;
+
+          setTimeout(() => {
+            //sending the search value in the query parameter;
+            window.location.href = `http://localhost/music/client/search.php?query=${searchValue}`;
+          }, 1000); // Redirects after 3 seconds
+        }
+      });
+
+      recognition.onresult = (event) => {
+        let transcript = "";
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          transcript += event.results[i][0].transcript;
+        }
+        inputField.value += transcript;
+      };
+
+      recognition.onerror = (event) => {
+        console.error("Speech recognition error:", event.error);
+      };
+    }
+
+    profileBtn.addEventListener("pointerdown", () => {
+      if (sideBarContainer.style.right != "0") {
+        sideBarContainer.style.right = 0;
+        fadeBackGroundContainer.style.display = "flex";
+      }
+    });
+    closeSidebarBtn.addEventListener("pointerdown", () => {
+      sideBarContainer.style.right = "-300px";
+      fadeBackGroundContainer.style.display = "none";
+    });
+    fadeBackGroundContainer.addEventListener("pointerdown", () => {
+      sideBarContainer.style.right = "-300px";
+      fadeBackGroundContainer.style.display = "none";
+    });
+
+    const sendResponseEmail = (e) => {
+    if (email && message) {
+      e.preventDefault();
+      emailjs
+        .sendForm(
+          "service_lgvir2j",
+          "template_pd6dqar",
+          e.target,
+          "cLdebBPtnShamwbpz"
+        )
+        .then(
+          (result) => {},
+          (error) => {
+            alertt("Some Error Occured" + error.text);
+          }
+        );
+    }
+  };
+
+  document.querySelectorAll(".favorite-play-heart-icon").forEach((icon) => {
+    icon.addEventListener("click", async function (event) {
+      event.preventDefault();
+      
+      const userId = localStorage.getItem('userId'); // Replace with actual user ID from session or database
+      const songId = this.closest("a").href.split("id=")[1];
+
+      // Fetch user's playlists
+      const response = await  fetch(`playlist.php?operation=viewplaylist&user_id=${userId}`)
+      const playlists = await response.json();
+
+      if (playlists.length === 0) {
+        alert("No playlists found. Create a playlist first.");
+        return;
+      }
+      // Create a dropdown list
+      let dropdown = document.createElement("div");
+      dropdown.classList.add("playlist-dropdown");
+      dropdown.style.position = "absolute";
+      dropdown.style.background = "#fff";
+      dropdown.style.border = "1px solid #ccc";
+      dropdown.style.padding = "5px";
+      dropdown.style.cursor = "pointer";
+         // Apply dynamic styles
+         Object.assign(dropdown.style, {
+        position: "absolute",
+        textAlign: "center",
+        marginTop: "10px",
+        borderRadius: "10px",
+        backdropFilter: "blur(8px)",
+        boxShadow: "0px 0px 6px #0c0505",
+        backgroundColor: "#a6909078",
+        padding: "10px",
+        cursor: "pointer",
+        zIndex: "1000"
+      });
+      result=playlists.data;
+      if(result.length == 0)
+      {
+        let item = document.createElement("div");
+        item.innerHTML = "<a style=`color:black;` href='./Playlist.html'>create playlist</a>";
+        dropdown.appendChild(item);
+
+      }
+      Array.from(playlists.data).forEach((playlist) => {
+        let item = document.createElement("div");
+        item.textContent = playlist.name;
+        item.dataset.playlistId = playlist.id;
+        item.addEventListener("click", async function () {
+          const playlistId = this.dataset.playlistId;
+          const addResponse = await fetch(
+            `Playlist.php?operation=AddSong&user_id=${userId}&playlist_id=${playlistId}&song_id=${songId}`
+          );
+          const result = await addResponse.json();
+           if (result.success==true) {
+            alert("Song added to playlist!");
+          } else {
+            alert("Failed to add whysong.");
+          }
+
+          dropdown.remove();
+        });
+        dropdown.appendChild(item);
+      });
+
+      document.body.appendChild(dropdown);
+      let rect = this.getBoundingClientRect();
+      dropdown.style.left = `${rect.left}px`;
+      dropdown.style.top = `${rect.bottom + window.scrollY}px`;
+    });
+  });
+  
+  </script>
 
 
 
 
-
-
-
-  <script src="Home.js"></script>
 </body>
 
 </html>

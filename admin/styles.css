@@ -1,0 +1,214 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+
+}
+
+
+header {
+  background: #333;
+  padding: 15px;
+  width:100%;
+
+}
+
+nav ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+}
+
+nav ul li {
+  margin: 0 10px;
+}
+
+nav ul li a {
+  color: white;
+  text-decoration: none;
+  padding: 8px 12px;
+  transition: 0.3s;
+}
+
+nav ul li a:hover,
+nav ul li a.active {
+  background: #555;
+  border-radius: 5px;
+  transform: scale(1.02);
+}
+
+main {
+ width: 90%;
+  max-width:600px;
+  min-width:fit-content;
+  margin: 20px auto;
+  padding: 60px;
+  background: white;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th,
+table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+table th {
+  background: #333;
+  color: white;
+}
+
+audio {
+  width: 100%;
+  min-width: 200px;
+  padding-right: 20px;
+}
+
+#logoutBtn {
+  cursor: pointer;
+  background: red;
+  padding: 8px 12px;
+  border-radius: 5px;
+  color: white;
+  transition: 0.3s;
+}
+
+#logoutBtn:hover {
+  background: darkred;
+  transform: scale(1.02);
+}
+
+.delete-btn {
+  background: red;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.delete-btn:hover {
+  background: darkred;
+  transform: scale(1.02);
+}
+select,
+input,
+textarea {
+  width: 100%;
+  padding: 8px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+form{
+    max-width:800px;
+
+}
+.container { padding: 20px; }
+
+
+button {
+    display: block;
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+  margin: auto;
+  margin-top: 30px;
+  
+}
+
+button:hover {
+  background: #0056b3;
+  transform: scale(1.02);
+}
+
+/* Login Button */
+.login-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #333;
+  /* Dark gray text */
+  background-color: transparent;
+  /* No background */
+  border: 1px solid #ccc;
+  /* Light gray border */
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.login-btn:hover {
+  background-color: rgb(219, 78, 212);
+  /* Light gray background on hover */
+}
+
+/* Login Message */
+.login-message {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #000000;
+  /* Medium gray */
+}
+
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0px;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  z-index: 30;
+  left: 0;
+  position: fixed;
+  background-color: rgb(228, 217, 217);
+  box-shadow: 0px 0px 5px #000000;
+}
+
+.login-btn {
+  padding: 10px 20px;
+  background: #ce31dd;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-left: 10px;
+  text-decoration: none;
+}
+::-webkit-scrollbar {
+    height: 0px;
+    width: 0px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: rgb(216, 230, 230);
+    border-radius: 2px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: rgb(41, 40, 35);
+    border-radius: 2px;
+  }
