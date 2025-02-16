@@ -221,41 +221,40 @@ while ($row = $result->fetch_assoc()) {
 </head>
 
 <body>
-
-    <div class="head-wrapper">
-        <div class="head-box">
+        <!--  HeaderBar section -->
+        <div class="head-wrapper">
+          <div class="head-box">
             <a href="./../client/home.php">
-                <img class="brand-name" src=".\..\images\musicLogo.png" alt="brand-logo"></img>
+              <img class="brand-name" src=".\..\images\musicLogo.png" alt="brand-logo"></img>
             </a>
-
+    
             <div class="head-tool">
-                <ul class="head-list">
-                    <li><a class="head-list-link-item" href="./../client/search.html">Search</a> </li>
-                    <li><a class="head-list-link-item" href="./../client/home.php">Playlist </a> </li>
-                    <li><a class="head-list-link-item active" id="downloadLink" href="#">Download</a></li>
-                </ul>
-                <div class="address-box">
-                    <div class="address-box-content">
-                        <p class="address-box-location">Igatpuri</p>
-                        <p class="address-box-pincode">422403</p>
-                    </div>
-                    <img
-                        class="drop-down-icon"
-                        src=".\..\images\Vector11.svg"
-                        alt="drop-down-icon"></img>
-
-                    <span class="material-symbols-outlined address-icon" style="color:rgb(207, 199, 192);">
-                        location_on
-                    </span>
+              <ul class="head-list">
+                <li><a class="head-list-link-item" href="./../client/search.html">Search</a> </li>
+                <li><a class="head-list-link-item" href="./../client/Playlist.html">Playlist </a> </li>
+                <li><a class="head-list-link-item" id="downloadLink" href="href='./../client/Download.php">Download</a></li>
+              </ul>
+              <div class="address-box">
+                <div class="address-box-content">
+                  <p class="address-box-location">Igatpuri</p>
+                  <p class="address-box-pincode">422403</p>
                 </div>
-                <div class="profile">
-                    <span class="material-symbols-outlined" style=" color: rgb(207, 199, 192);">
-                        manage_accounts</span>
-                </div>
+                <img
+                  class="drop-down-icon"
+                  src=".\..\images\Vector11.svg"
+                  alt="drop-down-icon"></img>
+    
+                <span class="material-symbols-outlined address-icon" style="color:rgb(207, 199, 192);">
+                  location_on
+                </span>
+              </div>
+              <div class="profile">
+                <span class="material-symbols-outlined" style=" color: rgb(207, 199, 192);">
+                  manage_accounts</span>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
-
     <!-- Side-bar-section -->
     <div class="background-wrapper">
     </div>
@@ -508,6 +507,8 @@ while ($row = $result->fetch_assoc()) {
         if (!isLoggedIn && loginWrapper) {
             loginWrapper.style.display = "flex";
         }
+
+        
     </script>
 
 </body>
